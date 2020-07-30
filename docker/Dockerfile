@@ -29,7 +29,7 @@ RUN git clone -b ${BIOFORMATS2RAW_VERSION} https://github.com/glencoesoftware/bi
  && cd ../.. \
  && mv build/distributions/bioformats2raw* /opt/bioformats2raw
 
-ENV RAW2OMETIFF_VERSION=v0.2.6
+ENV RAW2OMETIFF_VERSION=v0.2.7
 # Clone raw pyramid to tiff repo.
 RUN git clone -b ${RAW2OMETIFF_VERSION} https://github.com/glencoesoftware/raw2ometiff.git \
  && cd raw2ometiff \
