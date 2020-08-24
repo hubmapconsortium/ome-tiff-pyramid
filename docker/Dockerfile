@@ -15,19 +15,13 @@ RUN apt-get update -qq \
     zip \
  && rm -rf /var/cache/apt/*
 
-WORKDIR /bioformats_pyramid
+WORKDIR /opt
+RUN wget https://ci.appveyor.com/api/buildjobs/654febn0xivg9fqn/artifacts/build%2Fdistributions%2Fbioformats2raw-0.2.6-SNAPSHOT.zip -O bioformats2raw.zip \
+ && unzip bioformats2raw.zip \
+ && mv bioformats2raw-0.2.6-SNAPSHOT bioformats2raw \
+ && rm bioformats2raw.zip
 
-ENV BIOFORMATS2RAW_VERSION=v0.2.4
-# Clone tiff-to-raw pyramid code.
-RUN git clone -b ${BIOFORMATS2RAW_VERSION} https://github.com/glencoesoftware/bioformats2raw.git \
- && cd bioformats2raw \
- && gradle build \
- && cd build/distributions \
- && rm bioformats2raw*tar \
- && unzip bioformats2raw*zip \
- && rm -f bioformats2raw*zip \
- && cd ../.. \
- && mv build/distributions/bioformats2raw* /opt/bioformats2raw
+WORKDIR /bioformats_pyramid
 
 ENV RAW2OMETIFF_VERSION=v0.2.7
 # Clone raw pyramid to tiff repo.
