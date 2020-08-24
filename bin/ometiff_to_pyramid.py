@@ -9,6 +9,7 @@ BIOFORMATS2RAW_COMMAND_TEMPLATE = [
     '/opt/bioformats2raw/bin/bioformats2raw',
     '{input_file}',
     '{n5_directory}',
+    '--downsample-type=CUBIC',
     '--tile_width',
     '512',
     '--tile_height',
