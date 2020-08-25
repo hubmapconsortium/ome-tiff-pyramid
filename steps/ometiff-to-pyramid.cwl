@@ -24,6 +24,11 @@ inputs:
     inputBinding:
       prefix: --rgb
       position: 3
+  downsample_type:
+    type: string?
+    inputBinding:
+      prefix: --downsample-type
+      position: 4
 
 outputs:
   pyramid_dir:

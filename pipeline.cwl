@@ -12,6 +12,8 @@ inputs:
     default: 1
   rgb:
     type: boolean?
+  downsample_type:
+    type: string?
 
 outputs:
   pyramid_dir:
@@ -38,4 +40,5 @@ steps:
       base_directory: collect_ometiff_files/base_directory
       processes: processes
       rgb: rgb
+      downsample_type: downsample_type
     out: [pyramid_dir, n5_dir]

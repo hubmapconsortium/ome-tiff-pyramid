@@ -2,6 +2,7 @@
 from argparse import ArgumentParser
 from pathlib import Path
 from subprocess import run
+from typing import Optional
 
 from utils import OME_TIFF_PATTERN
 
@@ -9,7 +10,6 @@ BIOFORMATS2RAW_COMMAND_TEMPLATE = [
     '/opt/bioformats2raw/bin/bioformats2raw',
     '{input_file}',
     '{n5_directory}',
-    '--downsample-type=CUBIC',
     '--tile_width',
     '512',
     '--tile_height',
@@ -36,7 +36,13 @@ N5_RAW_BASE_DIRECTORY = Path('n5_raw')
 N5_ZIP_BASE_DIRECTORY = Path('n5')
 PYRAMID_BASE_DIRECTORY = Path('ometiff-pyramids')
 
-def convert(ometiff_file: Path, relative_directory: str, processes: int, rgb: bool):
+def convert(
+        ometiff_file: Path,
+        relative_directory: str,
+        processes: int,
+        rgb: bool,
+        downsample_type: Optional[str],
+):
     m = OME_TIFF_PATTERN.match(ometiff_file.name)
     if not m:
         message = f'Filename did not match OME-TIFF pattern: {ometiff_file.name}'
@@ -55,6 +61,8 @@ def convert(ometiff_file: Path, relative_directory: str, processes: int, rgb: bo
         )
         for piece in BIOFORMATS2RAW_COMMAND_TEMPLATE
     ]
+    if downsample_type is not None:
+        command.append(f'--downsample-type={downsample_type}')
     print('Running', ' '.join(command))
     run(command, check=True)
 
@@ -94,6 +102,13 @@ if __name__ == '__main__':
     p.add_argument('relative_directory')
     p.add_argument('processes', type=int)
     p.add_argument('--rgb', action='store_true')
+    p.add_argument('--downsample-type')
     args = p.parse_args()
 
-    convert(args.ometiff_file, args.relative_directory, args.processes, args.rgb)
+    convert(
+        args.ometiff_file,
+        args.relative_directory,
+        args.processes,
+        args.rgb,
+        args.downsample_type,
+    )
