@@ -16,9 +16,9 @@ RUN apt-get update -qq \
  && rm -rf /var/cache/apt/*
 
 WORKDIR /opt
-RUN wget https://ci.appveyor.com/api/buildjobs/654febn0xivg9fqn/artifacts/build%2Fdistributions%2Fbioformats2raw-0.2.6-SNAPSHOT.zip -O bioformats2raw.zip \
+RUN wget https://github.com/glencoesoftware/bioformats2raw/releases/download/v0.2.6/bioformats2raw-0.2.6.zip -O bioformats2raw.zip \
  && unzip bioformats2raw.zip \
- && mv bioformats2raw-0.2.6-SNAPSHOT bioformats2raw \
+ && mv bioformats2raw-0.2.6 bioformats2raw \
  && rm bioformats2raw.zip
 
 WORKDIR /bioformats_pyramid
