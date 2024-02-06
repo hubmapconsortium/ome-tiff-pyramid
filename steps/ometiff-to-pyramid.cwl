@@ -31,6 +31,7 @@ inputs:
       position: 4
   output_filename:
     type: string?
+    inputBinding:
       prefix: --output-filename
       position: 5
 
