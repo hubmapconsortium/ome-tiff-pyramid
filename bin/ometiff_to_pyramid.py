@@ -48,7 +48,7 @@ def convert(
     if not m:
         message = f'Filename did not match OME-TIFF pattern: {ometiff_file.name}'
         raise ValueError(message)
-    basename = m.group('basename')
+    basename = m.group('basename') if output_filename is None else Path(output_filename).stem.split('.')[0]
 
     n5_raw_parent_dir = N5_RAW_BASE_DIRECTORY / relative_directory
     n5_raw_parent_dir.mkdir(exist_ok=True, parents=True)
@@ -70,7 +70,7 @@ def convert(
     pyramid_parent_dir = PYRAMID_BASE_DIRECTORY / relative_directory
     pyramid_parent_dir.mkdir(exist_ok=True, parents=True)
 
-    output_ometiff_filename = pyramid_parent_dir / f'{basename}.ome.tif' if output_filename is None else output_filename
+    output_ometiff_filename = pyramid_parent_dir / f'{basename}.ome.tif' if output_filename is None else pyramid_parent_dir / output_filename
 
     command = [
         piece.format(
@@ -114,4 +114,5 @@ if __name__ == '__main__':
         args.processes,
         args.rgb,
         args.downsample_type,
+        args.output_filename
     )
