@@ -29,6 +29,10 @@ inputs:
     inputBinding:
       prefix: --downsample-type
       position: 4
+  output_filename:
+    type: string?
+      prefix: --output-filename
+      position: 5
 
 outputs:
   pyramid_dir:

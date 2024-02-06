@@ -42,6 +42,7 @@ def convert(
         processes: int,
         rgb: bool,
         downsample_type: Optional[str],
+        output_filename: Optional[str],
 ):
     m = OME_TIFF_PATTERN.match(ometiff_file.name)
     if not m:
@@ -68,7 +69,8 @@ def convert(
 
     pyramid_parent_dir = PYRAMID_BASE_DIRECTORY / relative_directory
     pyramid_parent_dir.mkdir(exist_ok=True, parents=True)
-    output_ometiff_filename = pyramid_parent_dir / f'{basename}.ome.tif'
+
+    output_ometiff_filename = pyramid_parent_dir / f'{basename}.ome.tif' if output_filename is None else output_filename
 
     command = [
         piece.format(
@@ -103,6 +105,7 @@ if __name__ == '__main__':
     p.add_argument('processes', type=int)
     p.add_argument('--rgb', action='store_true')
     p.add_argument('--downsample-type')
+    p.add_argument('--output-filename')
     args = p.parse_args()
 
     convert(

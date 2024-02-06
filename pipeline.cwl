@@ -14,6 +14,8 @@ inputs:
     type: boolean?
   downsample_type:
     type: string?
+  output_filename:
+    type: string?
 
 outputs:
   pyramid_dir:
@@ -41,4 +43,5 @@ steps:
       processes: processes
       rgb: rgb
       downsample_type: downsample_type
+      output_filename: output_filename
     out: [pyramid_dir, n5_dir]
