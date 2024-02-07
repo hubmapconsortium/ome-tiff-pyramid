@@ -3,7 +3,7 @@ cwlVersion: v1.1
 class: CommandLineTool
 requirements:
   DockerRequirement:
-    dockerPull: hubmap/ome-tiff-pyramid:1.4
+    dockerPull: hubmap/ome-tiff-pyramid:latest
 
 inputs:
   ometiff_file:
@@ -29,6 +29,11 @@ inputs:
     inputBinding:
       prefix: --downsample-type
       position: 4
+  output_filename:
+    type: string?
+    inputBinding:
+      prefix: --output-filename
+      position: 5
 
 outputs:
   pyramid_dir:
