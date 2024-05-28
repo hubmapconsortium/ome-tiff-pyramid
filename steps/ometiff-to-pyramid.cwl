@@ -3,7 +3,7 @@ cwlVersion: v1.1
 class: CommandLineTool
 requirements:
   DockerRequirement:
-    dockerPull: hubmap/ome-tiff-pyramid:latest
+    dockerPull: hubmap/ome-tiff-pyramid:1.6
 
 inputs:
   ometiff_file:
