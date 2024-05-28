@@ -1,4 +1,4 @@
-ARG BUILD_IMAGE=gradle:6.2.1-jdk8
+ARG BUILD_IMAGE=gradle:6.9-jdk8
 
 #
 # Build phase: Use the gradle image for building.
@@ -16,14 +16,14 @@ RUN apt-get update -qq \
  && rm -rf /var/cache/apt/*
 
 WORKDIR /opt
-RUN wget https://github.com/glencoesoftware/bioformats2raw/releases/download/v0.2.6/bioformats2raw-0.2.6.zip -O bioformats2raw.zip \
+RUN wget https://github.com/glencoesoftware/bioformats2raw/releases/download/v0.9.2/bioformats2raw-0.9.2.zip -O bioformats2raw.zip \
  && unzip bioformats2raw.zip \
- && mv bioformats2raw-0.2.6 bioformats2raw \
+ && mv bioformats2raw-0.9.2 bioformats2raw \
  && rm bioformats2raw.zip
 
 WORKDIR /bioformats_pyramid
 
-ENV RAW2OMETIFF_VERSION=v0.2.7
+ENV RAW2OMETIFF_VERSION=v0.7.0
 # Clone raw pyramid to tiff repo.
 RUN git clone -b ${RAW2OMETIFF_VERSION} https://github.com/glencoesoftware/raw2ometiff.git \
  && cd raw2ometiff \
