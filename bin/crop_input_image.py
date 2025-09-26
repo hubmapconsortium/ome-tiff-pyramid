@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Optional
+from subprocess import check_call
 
 import aicsimageio
 import geopandas as gpd
@@ -175,7 +176,10 @@ def crop_image(
 ):
     maybe_geojson_file = find_geojson(dataset_directory)
     if maybe_geojson_file is None:
-        raise ValueError(f"Couldn't find GeoJSON file in")
+        print(f"Couldn't find GeoJSON file in", dataset_directory)
+        copy_command = f"cp {image_path} {image_path.name}"
+        check_call(copy_command, shell=True)
+
 
     print("Found GeoJSON file at", maybe_geojson_file)
     crop_geojson(
