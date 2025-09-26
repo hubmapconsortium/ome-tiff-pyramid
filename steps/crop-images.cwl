@@ -28,7 +28,7 @@ outputs:
   crop_ome_tiff:
     type: File
     outputBinding:
-      glob: "/output/*.ome.tif"
+      glob: "*.ome.tif*"
   crop_debug_data:
     type: Directory?
     outputBinding:

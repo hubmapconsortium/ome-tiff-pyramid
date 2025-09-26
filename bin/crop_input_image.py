@@ -162,8 +162,7 @@ def crop_geojson(
         physical_pixel_sizes=image.physical_pixel_sizes,
     )
 
-    output_path = Path(f"/output/{image_path.name}")
-    output_path.parent.mkdir(exist_ok=True, parents=True)
+    output_path = Path(f"{image_path.name}")
     print("Saving to", output_path)
     image_cropped.save(output_path)
 
@@ -177,8 +176,7 @@ def crop_image(
     maybe_geojson_file = find_geojson(dataset_directory)
     if maybe_geojson_file is None:
         print(f"Couldn't find GeoJSON file in", dataset_directory)
-        output_path = Path(f"/output/{image_path.name}")
-        output_path.parent.mkdir(exist_ok=True, parents=True)
+        output_path = Path(f"{image_path.name}")
         copy_command = f"cp {image_path} {output_path}"
         check_call(copy_command, shell=True)
     else:
