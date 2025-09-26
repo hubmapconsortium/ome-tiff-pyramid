@@ -10,12 +10,12 @@ requirements:
 baseCommand: ["python", "/opt/crop_input_image.py", "--debug"]
 
 inputs:
-  ome_tiff:
+  ometiff_file:
     type: File
     inputBinding:
       position: 0
-  dataset_dir:
-    type: Directory
+  base_directory:
+    type: string
     inputBinding:
       position: 1
   invert_geojson_mask:
@@ -28,7 +28,7 @@ outputs:
   crop_ome_tiff:
     type: File
     outputBinding:
-      glob: "/output/aligned_tissue_0.ome.tif"
+      glob: "/output/*.ome.tif"
   crop_debug_data:
     type: Directory?
     outputBinding:

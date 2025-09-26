@@ -40,7 +40,7 @@ steps:
     in:
       ometiff_file: collect_ometiff_files/ometiff_file
       base_directory: collect_ometiff_files/base_directory
-    out: [ometiff_file, base_directory]
+    out: [crop_ome_tiff, crop_debug_data]
 
   convert_to_pyramid:
     scatter: [ometiff_file, base_directory]
