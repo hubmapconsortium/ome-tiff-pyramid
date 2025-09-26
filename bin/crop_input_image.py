@@ -179,16 +179,15 @@ def crop_image(
         print(f"Couldn't find GeoJSON file in", dataset_directory)
         copy_command = f"cp {image_path} {image_path.name}"
         check_call(copy_command, shell=True)
-
-
-    print("Found GeoJSON file at", maybe_geojson_file)
-    crop_geojson(
-        image_path=image_path,
-        geojson_path=maybe_geojson_file,
-        padding=padding_default,
-        exclude_mask_content=invert_geojson_mask,
-        debug=debug,
-    )
+    else:
+        print("Found GeoJSON file at", maybe_geojson_file)
+        crop_geojson(
+            image_path=image_path,
+            geojson_path=maybe_geojson_file,
+            padding=padding_default,
+            exclude_mask_content=invert_geojson_mask,
+            debug=debug,
+        )
 
 
 if __name__ == "__main__":
