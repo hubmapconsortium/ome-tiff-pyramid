@@ -47,7 +47,7 @@ steps:
     scatterMethod: dotproduct
     run: steps/ometiff-to-pyramid.cwl
     in:
-      ometiff_file: collect_ometiff_files/ometiff_file
+      ometiff_file: crop_images/crop_ome_tiff
       base_directory: collect_ometiff_files/base_directory
       processes: processes
       rgb: rgb
