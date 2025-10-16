@@ -45,6 +45,7 @@ def new_plot():
 
 def find_geojson(directory: Path) -> Optional[Path]:
     geojson_files = list(directory.glob("**/*.geojson"))
+
     if len(geojson_files) > 1:
         raise ValueError(f"Found multiple GeoJSON files in {directory}")
     elif len(geojson_files) == 1:
@@ -194,6 +195,7 @@ if __name__ == "__main__":
     p = ArgumentParser()
     p.add_argument("image_path", type=Path)
     p.add_argument("dataset_dir", type=Path)
+    p.add_argument("ometiff_directory", type=Path)
     p.add_argument("--invert-geojson-mask", action="store_true")
     p.add_argument("--debug", action="store_true")
     args = p.parse_args()

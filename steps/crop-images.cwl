@@ -18,6 +18,10 @@ inputs:
     type: string
     inputBinding:
       position: 1
+  ometiff_directory:
+    type: Directory
+    inputBinding:
+      position: 2
   invert_geojson_mask:
     type: boolean?
     inputBinding:
