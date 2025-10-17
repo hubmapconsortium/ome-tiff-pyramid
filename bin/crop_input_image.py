@@ -171,10 +171,11 @@ def crop_geojson(
 def crop_image(
     image_path: Path,
     dataset_directory: Path,
+    ometiff_directory: Path,
     invert_geojson_mask: bool,
     debug: bool,
 ):
-    maybe_geojson_file = find_geojson(dataset_directory)
+    maybe_geojson_file = find_geojson(ometiff_directory / dataset_directory)
     if maybe_geojson_file is None:
         print(f"Couldn't find GeoJSON file in", dataset_directory)
         output_path = Path(f"{image_path.name}")
@@ -203,6 +204,7 @@ if __name__ == "__main__":
     crop_image(
         image_path=args.image_path,
         dataset_directory=args.dataset_dir,
+        ometiff_directory=args.ometiff_directory,
         invert_geojson_mask=args.invert_geojson_mask,
         debug=args.debug,
     )
