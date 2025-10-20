@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+import shutil
 from argparse import ArgumentParser
 from contextlib import contextmanager
 from pathlib import Path
-from typing import Optional
 from subprocess import check_call
+from typing import Optional
 
 import aicsimageio
 import geopandas as gpd
@@ -177,10 +178,9 @@ def crop_image(
 ):
     maybe_geojson_file = find_geojson(ometiff_directory / dataset_directory)
     if maybe_geojson_file is None:
-        print(f"Couldn't find GeoJSON file in", dataset_directory)
-        output_path = Path(f"{image_path.name}")
-        copy_command = f"cp {image_path} {output_path}"
-        check_call(copy_command, shell=True)
+        print("Couldn't find GeoJSON file in", dataset_directory)
+        output_path = Path(image_path.name)
+        shutil.copy(image_path, output_path)
     else:
         print("Found GeoJSON file at", maybe_geojson_file)
         crop_geojson(
