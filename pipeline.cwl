@@ -33,12 +33,22 @@ steps:
     out:
       [ometiff_file, base_directory]
 
+  crop_images:
+    scatter: [ometiff_file, base_directory]
+    scatterMethod: dotproduct
+    run: steps/crop-images.cwl
+    in:
+      ometiff_file: collect_ometiff_files/ometiff_file
+      base_directory: collect_ometiff_files/base_directory
+      ometiff_directory: ometiff_directory
+    out: [crop_ome_tiff, crop_debug_data]
+
   convert_to_pyramid:
     scatter: [ometiff_file, base_directory]
     scatterMethod: dotproduct
     run: steps/ometiff-to-pyramid.cwl
     in:
-      ometiff_file: collect_ometiff_files/ometiff_file
+      ometiff_file: crop_images/crop_ome_tiff
       base_directory: collect_ometiff_files/base_directory
       processes: processes
       rgb: rgb

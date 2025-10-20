@@ -1,1 +1,2 @@
-hubmap/ome-tiff-pyramid	docker/Dockerfile	base_directory_build
+hubmap/ome-tiff-pyramid	docker/ome-tiff-pyramid/Dockerfile	base_directory_build
+hubmap/ome-tiff-crop docker/crop/Dockerfile base_directory_build
