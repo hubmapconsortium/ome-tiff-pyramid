@@ -100,7 +100,7 @@ def crop_geojson(
     print("Computing mask")
     mask = rasterio.features.geometry_mask(
         [closed_geometry],
-        image_data.shape[-2:],
+        (image.dims['Y'][0], image.dims['X'][0]),
         identity_transform,
         # default behavior for this script is to only include the area
         # contained in the mask, which corresponds to invert=True
@@ -119,7 +119,7 @@ def crop_geojson(
     assert len(rps) == 1
 
     min_y, min_x, max_y, max_x = rps[0].bbox
-    image_max_y, image_max_x = image_data.shape[-2:]
+    image_max_y, image_max_x = (image.dims['Y'][0], image.dims['X'][0])
     pixel_slices = (
         slice(max(0, min_y - padding), min(max_y + padding, image_max_y)),
         slice(max(0, min_x - padding), min(max_x + padding, image_max_x)),

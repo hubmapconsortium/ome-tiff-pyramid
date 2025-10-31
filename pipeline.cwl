@@ -16,7 +16,8 @@ inputs:
     type: string?
   output_filename:
     type: string?
-
+  invert_geojson_mask:
+    type: boolean?
 outputs:
   pyramid_dir:
     type: Directory[]
@@ -41,6 +42,7 @@ steps:
       ometiff_file: collect_ometiff_files/ometiff_file
       base_directory: collect_ometiff_files/base_directory
       ometiff_directory: ometiff_directory
+      invert_geojson_mask: invert_geojson_mask
     out: [crop_ome_tiff, crop_debug_data]
 
   convert_to_pyramid:
