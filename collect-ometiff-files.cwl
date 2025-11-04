@@ -6,7 +6,7 @@ cwlVersion: v1.1
 
 requirements:
   DockerRequirement:
-    dockerPull: hubmap/ome-tiff-pyramid:1.7
+    dockerPull: hubmap/ome-tiff-pyramid:latest
   InlineJavascriptRequirement: {}
 
   InitialWorkDirRequirement:
