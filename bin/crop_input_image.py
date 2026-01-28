@@ -55,6 +55,19 @@ def find_geojson(directory: Path) -> Optional[Path]:
         return None
 
 
+def get_2d_debug_image(image_data: np.ndarray) -> np.ndarray:
+    i = image_data.squeeze()
+    if i.shape == 2:
+        return i
+    if i.shape == 3:
+        if i.shape[2] == 3:
+            return i
+        if i.shape[0] == 3:
+            return i.transpose((1, 2, 0))
+        return np.log1p(i.sum(axis=0))
+    raise ValueError("Can't handle shape", i.shape)
+
+
 def crop_geojson(
     image_path: Path,
     geojson_path: Path,
@@ -81,17 +94,16 @@ def crop_geojson(
 
     if debug:
         debug_out_dir.mkdir(exist_ok=True, parents=True)
-        pixel_channel_sum_log1p = np.log1p(image_data.squeeze().sum(axis=0))
-
+        image_to_plot = get_2d_debug_image(image_data)
         crop_geom_gs = gpd.GeoSeries(crop_geometry)
         with new_plot():
-            axi = plt.imshow(pixel_channel_sum_log1p, cmap="gray")
+            axi = plt.imshow(image_to_plot, cmap="gray")
             crop_geom_gs.plot(ax=axi.axes, color="#FF000080")
             axi.figure.savefig(debug_out_dir / "1-orig.pdf", bbox_inches="tight")
 
         closed_geom_gs = gpd.GeoSeries(closed_geometry)
         with new_plot():
-            axi = plt.imshow(pixel_channel_sum_log1p, cmap="gray")
+            axi = plt.imshow(image_to_plot, cmap="gray")
             closed_geom_gs.plot(ax=axi.axes, color="#FF000080")
             axi.figure.savefig(debug_out_dir / "2-closed-geom.pdf", bbox_inches="tight")
 
@@ -100,7 +112,7 @@ def crop_geojson(
     print("Computing mask")
     mask = rasterio.features.geometry_mask(
         [closed_geometry],
-        (image.dims['Y'][0], image.dims['X'][0]),
+        (image.dims["Y"][0], image.dims["X"][0]),
         identity_transform,
         # default behavior for this script is to only include the area
         # contained in the mask, which corresponds to invert=True
@@ -119,7 +131,7 @@ def crop_geojson(
     assert len(rps) == 1
 
     min_y, min_x, max_y, max_x = rps[0].bbox
-    image_max_y, image_max_x = (image.dims['Y'][0], image.dims['X'][0])
+    image_max_y, image_max_x = (image.dims["Y"][0], image.dims["X"][0])
     pixel_slices = (
         slice(max(0, min_y - padding), min(max_y + padding, image_max_y)),
         slice(max(0, min_x - padding), min(max_x + padding, image_max_x)),
@@ -132,11 +144,9 @@ def crop_geojson(
     mask_data_cropped = mask[*pixel_slices]
 
     if debug:
-        image_data_cropped_sum_log1p = np.log1p(
-            image_data_cropped.squeeze().sum(axis=0)
-        )
+        image_to_plot = get_2d_debug_image(image_data_cropped)
         with new_plot():
-            axi = plt.imshow(image_data_cropped_sum_log1p, cmap="gray")
+            axi = plt.imshow(image_to_plot, cmap="gray")
             axi.figure.savefig(
                 debug_out_dir / "4-image-data-cropped.pdf", bbox_inches="tight"
             )
@@ -150,11 +160,9 @@ def crop_geojson(
     image_data_cropped[:, :, :, ~mask_data_cropped] = 0
 
     if debug:
-        image_data_cropped_sum_log1p = np.log1p(
-            image_data_cropped.squeeze().sum(axis=0)
-        )
+        image_to_plot = get_2d_debug_image(image_data_cropped)
         with new_plot():
-            axi = plt.imshow(image_data_cropped_sum_log1p, cmap="gray")
+            axi = plt.imshow(image_to_plot, cmap="gray")
             axi.figure.savefig(debug_out_dir / "6-masked.pdf", bbox_inches="tight")
 
     print("Instantiating new AICSImage")
