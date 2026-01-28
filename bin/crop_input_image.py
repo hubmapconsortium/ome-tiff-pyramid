@@ -57,9 +57,9 @@ def find_geojson(directory: Path) -> Optional[Path]:
 
 def get_2d_debug_image(image_data: np.ndarray) -> np.ndarray:
     i = image_data.squeeze()
-    if i.shape == 2:
+    if len(i.shape) == 2:
         return i
-    if i.shape == 3:
+    if len(i.shape) == 3:
         if i.shape[2] == 3:
             return i
         if i.shape[0] == 3:
