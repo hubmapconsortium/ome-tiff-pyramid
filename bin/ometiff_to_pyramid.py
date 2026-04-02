@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from argparse import ArgumentParser
 from pathlib import Path
-from subprocess import run
+from subprocess import DEVNULL, run
 from typing import Optional
 
 from utils import OME_TIFF_PATTERN
@@ -105,7 +105,7 @@ def convert(
         for piece in ZIP_N5_COMMAND
     ]
     print("Running", " ".join(command))
-    run(command, check=True)
+    run(command, check=True, stdout=DEVNULL)
 
 
 if __name__ == "__main__":
