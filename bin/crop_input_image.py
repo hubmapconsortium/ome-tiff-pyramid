@@ -88,8 +88,15 @@ def crop_geojson(
         if not isinstance(crop_geometry, shapely.GeometryCollection):
             crop_geometry = shapely.geometrycollections([crop_geometry])
 
+        geoms_to_fill = []
+        for poly in crop_geometry.geoms:
+            if isinstance(poly, shapely.MultiPolygon):
+                geoms_to_fill.extend(poly.geoms)
+            elif isinstance(poly, shapely.Polygon):
+                geoms_to_fill.append(poly)
+
         closed_geometry = shapely.GeometryCollection(
-            [shapely.Polygon(poly.exterior.coords) for poly in crop_geometry.geoms]
+            [shapely.Polygon(poly.exterior.coords) for poly in geoms_to_fill]
         )
 
     if debug:
